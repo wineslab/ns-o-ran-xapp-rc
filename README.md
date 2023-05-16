@@ -1,4 +1,39 @@
 
+# UPDATED README
+
+## PREREQUISITES
+
+The near-RT-RIC has to be installed. If is not, follow the instructions here: https://docs.o-ran-sc.org/projects/o-ran-sc-ric-plt-ric-dep/en/latest/installation-guides.html
+
+Take care in installing dms_cli, mandatory for the second part.
+
+Chartmuseum has to be already on. If not availabe, run from the home folder:
+>docker run --rm -u 0 -it -d -p 8090:8080 -e DEBUG=1 -e STORAGE=local -e STORAGE_LOCAL_ROOTDIR=/charts -v $(pwd)/charts:/charts chartmuseum/chartmuseum:latest
+>
+In addition to that, a local Docker registry is supposed to be running at 127.0.0.1:5000. In case it is not, run:
+>docker run -d -p 5000:5000 --name registry registry:2
+>
+
+
+## Install and launch the xApp
+
+THE SCRIPT NEEDS TO BE TESTED!!
+
+Just use the ./launch_app.sh script.
+
+What the script does is:
+- creating an env. variable for the url of Chartmuseum. 
+- Onboarding the xApp, using the tool *dms_cli* and the descriptor and validation schema. Notice that, inside, you find the image of the registry with its version. The xApp might have a different version. xApp version is a different thing than Docker image version.
+- Installing the xApp in the RIC (notice that install = run)
+- after 10 s, the script returns the name of the pod in the *ricxapp* namespace and the command to shell inside it
+
+You need to run the ./gprc command using the IP addresses obtained by
+>kubectl get pods -A -o wide -n ricplt
+
+>kubectl get svc -o wide -n ricxapp
+
+
+# ORIGINAL README
 ==================================================================================
        Copyright (c) 2020 AT&T Intellectual Property.
 
